@@ -1,0 +1,53 @@
+name: Deploy to Pages
+
+# main 에 push 될 때마다 빌드 후 배포합니다.
+# Actions 탭에서 수동 실행(Run workflow)도 가능합니다.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22          # package.json engines: >=22.13.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build:pages    # _site/ 생성
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true          # Pages 사이트가 없으면 직접 생성
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site             # 빌드 산출물만 업로드
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
