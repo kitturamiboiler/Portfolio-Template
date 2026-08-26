@@ -20,7 +20,7 @@
 
   function safeUrl(value) {
     var url = String(value || '').trim();
-    return /^(https?:\/\/|mailto:|#)/i.test(url) ? url : '#';
+    return /^(https?:\/\/|mailto:|#|\.\.?\/|\/)/i.test(url) ? url : '#';
   }
 
   function externalAttrs(url) {
@@ -50,6 +50,8 @@
       + '<div class="hero-actions">'
       + '<a class="action action-primary" href="#work">작업 보기 <span aria-hidden="true">↓</span></a>'
       + '<a class="action action-secondary" href="' + esc(safeUrl(meta.github)) + '"' + externalAttrs(meta.github) + '>GitHub <span aria-hidden="true">↗</span></a>'
+      + '<a class="action action-pdf" href="' + esc(safeUrl(meta.resumePdf)) + '" download>이력서 PDF <span aria-hidden="true">↓</span></a>'
+      + '<a class="action action-pdf" href="' + esc(safeUrl(meta.portfolioPdf)) + '" download>전체 PDF <span aria-hidden="true">↓</span></a>'
       + '</div>'
       + '</div>'
       + '<div class="hero-aside" aria-label="개발 철학 요약">'
@@ -97,11 +99,20 @@
           return '<div><strong>' + esc(metric.value || '') + '</strong><span>' + esc(metric.label || '') + '</span></div>';
         }).join('');
         var decisions = list(item.decisions).map(function (decision) {
-          return '<article>'
-            + '<p class="micro-label">' + esc(decision.label || '') + '</p>'
-            + '<h4>' + esc(decision.title || '') + '</h4>'
+          return '<details class="decision-item">'
+            + '<summary><span class="micro-label">' + esc(decision.label || '') + '</span><b>' + esc(decision.title || '') + '</b><i aria-hidden="true">+</i></summary>'
             + '<p>' + esc(decision.text || '') + '</p>'
-            + '</article>';
+            + '</details>';
+        }).join('');
+        var codeNotes = list(item.codeNotes).map(function (note, index) {
+          return '<details class="code-note">'
+            + '<summary><span>' + esc(String(index + 1).padStart(2, '0')) + '</span><b>' + esc(note.title || '') + '</b><i aria-hidden="true">+</i></summary>'
+            + '<div class="code-note-body">'
+            + '<p>' + esc(note.text || '') + '</p>'
+            + '<pre><code>' + esc(note.code || '') + '</code></pre>'
+            + (has(note.caption) ? '<small>' + esc(note.caption) + '</small>' : '')
+            + '</div>'
+            + '</details>';
         }).join('');
         var links = list(item.links).map(function (link) {
           return '<a href="' + esc(safeUrl(link.url)) + '"' + externalAttrs(link.url) + '>'
@@ -116,8 +127,9 @@
           + (has(item.role) ? '<p class="project-role">' + esc(item.role) + '</p>' : '')
           + '<p class="project-description">' + esc(item.description || '') + '</p>'
           + (metrics ? '<div class="project-metrics">' + metrics + '</div>' : '')
-          + (points ? '<ul class="project-points">' + points + '</ul>' : '')
-          + (decisions ? '<div class="decision-list">' + decisions + '</div>' : '')
+          + (points ? '<details class="project-detail"><summary><span>핵심 구현</span><b>' + list(item.points).length + '가지</b><i aria-hidden="true">+</i></summary><ul class="project-points">' + points + '</ul></details>' : '')
+          + (decisions ? '<div class="decision-list"><div class="decision-list-head"><p class="micro-label">FRONTEND DECISIONS</p><span>선택의 이유를 펼쳐보세요</span></div>' + decisions + '</div>' : '')
+          + (codeNotes ? '<div class="code-notes"><div class="code-notes-head"><p class="micro-label">CODE NOTES / REPRESENTATIVE</p><h4>코드로 보는 설계 의도</h4></div>' + codeNotes + '</div>' : '')
           + '</div>'
           + '<div class="project-meta">'
           + '<div class="tag-list">' + stack + '</div>'

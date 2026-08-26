@@ -13,6 +13,8 @@ window.PORTFOLIO = {
     availability: "좋은 제품과 좋은 개발 경험이 만나는 지점에 관심이 있습니다.",
     email: "mjm3204@naver.com",
     github: "https://github.com/kitturamiboiler",
+    resumePdf: "./m00n-resume.pdf",
+    portfolioPdf: "./m00n-portfolio.pdf",
     updated: "AUG 2026",
     accent: "#c9ff3f"
   },
@@ -59,7 +61,7 @@ window.PORTFOLIO = {
       items: [
         {
           index: "01",
-          kind: "6-WEEK TEAM PROJECT · 8 PEOPLE",
+          kind: "10-WEEK TEAM PROJECT · 8 PEOPLE",
           title: "Omagotchi",
           period: "2026.07 — 2026.08",
           role: "게임 시스템 기획 · UI/UX · 아트 · 프론트엔드 전체 · 백엔드 6개 도메인",
@@ -97,6 +99,26 @@ window.PORTFOLIO = {
               label: "DESIGN SYSTEM",
               title: "프레임워크보다 필요한 기능만 선택",
               text: "기존 전역 CSS와 픽셀 아트 톤을 지키기 위해 CSS 프레임워크 도입을 폐기하고, 접근성이 필요한 Radix UI와 상태 전환용 Motion만 제한적으로 채택했습니다."
+            }
+          ],
+          codeNotes: [
+            {
+              title: "Thymeleaf 안에 React Island를 어떻게 연결했나",
+              text: "서버가 소유한 라우트와 세션 계약은 유지하고, 상호작용이 많은 Home 영역만 독립적으로 마운트했습니다. 서버 템플릿은 초기 경계와 data-* 계약을 제공하고 React는 그 안의 상태와 렌더링을 책임집니다.",
+              code: "const root = document.querySelector('[data-home-island]');\n\nif (root) {\n  createRoot(root).render(\n    <HomeIsland userId={root.dataset.userId} />\n  );\n}",
+              caption: "실제 구현을 설명하기 위해 축약한 구조 예시입니다."
+            },
+            {
+              title: "로딩·빈 화면·오류를 하나의 상태 모델로 다루기",
+              text: "API 응답을 곧바로 JSX 조건문에 흩뿌리지 않고 화면이 가질 수 있는 상태를 먼저 한정했습니다. Storybook에서도 같은 상태 모델을 사용해 서버 없이 경계 상황을 재현했습니다.",
+              code: "type ViewState<T> =\n  | { status: 'loading' }\n  | { status: 'empty' }\n  | { status: 'error'; message: string }\n  | { status: 'ready'; data: T };",
+              caption: "상태 분기를 설명하기 위한 대표 타입입니다."
+            },
+            {
+              title: "인증 변환은 브라우저가 아니라 BFF의 책임으로",
+              text: "브라우저에는 HttpOnly 세션만 남기고, 내부 API가 요구하는 Bearer 토큰 변환은 서버 경계에서 처리했습니다. UI 컴포넌트가 인증 세부사항을 알지 않게 해 화면 로직과 보안 책임을 분리했습니다.",
+              code: "const session = await readHttpOnlySession(request);\nconst response = await api.fetch('/home', {\n  headers: { Authorization: `Bearer ${session.token}` }\n});\n\nreturn mapToViewState(response);",
+              caption: "토큰 값과 실제 서버 구현을 노출하지 않은 흐름 예시입니다."
             }
           ],
           stack: ["React 19", "Thymeleaf", "Vite", "Storybook", "Vanilla JS", "CSS", "Spring BFF"],
@@ -215,7 +237,9 @@ window.PORTFOLIO = {
       email: "mjm3204@naver.com",
       links: [
         { label: "GitHub", url: "https://github.com/kitturamiboiler" },
-        { label: "Email", url: "mailto:mjm3204@naver.com" }
+        { label: "Email", url: "mailto:mjm3204@naver.com" },
+        { label: "이력서 PDF", url: "./m00n-resume.pdf" },
+        { label: "전체 PDF", url: "./m00n-portfolio.pdf" }
       ]
     }
   ]
