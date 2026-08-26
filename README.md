@@ -4,7 +4,7 @@
 
 ![m00n — Frontend Developer](./public/assets/og.png)
 
-예시 배포 주소: `https://kitturamiboiler.github.io/frontend-portfolio/`
+[예시 배포 주소](https://kitturamiboiler.github.io/frontend-portfolio/)
 
 ## 특징
 
