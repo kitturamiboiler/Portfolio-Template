@@ -66,6 +66,6 @@ GitHub Pages용 정적 출력은 `npm run build:pages`로 `_site`에 생성됩�
 - `app/layout.tsx`의 `metadataBase`
 - 이 README의 예시 배포 주소
 
-GitHub 저장소의 `Settings → Pages → Build and deployment → Source`에서 `GitHub Actions`를 선택합니다. 그다음 `main` 브랜치에 푸시하면 포함된 [Pages workflow](./.github/workflows/pages.yml)가 자동으로 빌드하고 배포합니다.
+GitHub 저장소의 `Settings → Pages → Build and deployment → Source`에서 `GitHub Actions`를 선택합니다. 그다음 `main` 브랜치에 푸시하면 포함된 [Pages workflow](./.github/workflows/pages.yml)가 자동으로 빌드하고 배포합니다. 템플릿 원본인 `kitturamiboiler/Portfolio-Template`에서는 불필요한 배포를 막기 위해 이 job을 건너뛰고, 다른 사용자가 만든 저장소에서만 실행됩니다.
 
 일반 저장소의 주소는 `https://YOUR_GITHUB_ID.github.io/YOUR_REPOSITORY/` 형식입니다. 저장소 이름 자체가 `YOUR_GITHUB_ID.github.io`라면 주소는 `https://YOUR_GITHUB_ID.github.io/`가 됩니다. remote 교체와 Pages 배포의 자세한 절차는 [사용 가이드의 새 저장소 및 GitHub Pages 항목](./docs/TEMPLATE_USAGE.md#7-새-저장소-remote-연결하기)을 참고하세요.

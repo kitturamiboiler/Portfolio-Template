@@ -241,6 +241,8 @@ app/layout.tsx의 metadataBase, README의 배포 주소와 공유 메타데이�
 
 GitHub 저장소에서 `Settings → Pages → Build and deployment → Source`로 이동해 `GitHub Actions`를 선택합니다. 이 저장소에는 이미 [`.github/workflows/pages.yml`](../.github/workflows/pages.yml)이 있으므로 새 workflow를 만들 필요가 없습니다.
 
+workflow는 템플릿 원본인 `kitturamiboiler/Portfolio-Template`에서는 배포 job을 건너뛰도록 설정되어 있습니다. Fork, `Use this template`, 또는 새 remote 연결을 통해 만든 다른 저장소에서는 저장소 이름이 달라지므로 정상적으로 실행됩니다.
+
 이 저장소의 `docs` 디렉터리는 사용 설명서일 뿐이며 Pages 배포 폴더가 아닙니다. Source에서 `Deploy from a branch`의 `/docs`를 선택하지 마세요. 현재 workflow는 `npm run build:pages`로 `_site`를 만든 뒤 그 결과물을 배포합니다.
 
 ### 3. `main` 브랜치에 push
