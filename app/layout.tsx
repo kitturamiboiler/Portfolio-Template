@@ -5,7 +5,7 @@ const siteTitle = "m00n · Frontend Developer";
 const siteDescription = "오마고치의 게임 시스템 기획부터 React Island, 디자인 시스템, BFF 연동까지 설계한 프론트엔드 개발자 m00n의 포트폴리오입니다.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:5173"),
+  metadataBase: new URL("https://m00n-frontend.legend3204.chatgpt.site"),
   title: siteTitle,
   description: siteDescription,
   openGraph: {
