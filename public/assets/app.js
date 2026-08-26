@@ -118,7 +118,12 @@
           return '<a href="' + esc(safeUrl(link.url)) + '"' + externalAttrs(link.url) + '>'
             + esc(link.label || link.url) + ' <span aria-hidden="true">↗</span></a>';
         }).join('');
-        return '<article class="project-card tone-' + esc(item.tone || 'paper') + (item.featured ? ' is-featured' : '') + '">'
+        var caseStudy = item.caseStudy && has(item.caseStudy.url)
+          ? '<a class="project-case-link" href="' + esc(safeUrl(item.caseStudy.url)) + '" aria-label="' + esc(item.title || '프로젝트') + ' 상세 케이스스터디 보기">'
+            + '<span class="project-case-label"><span>' + esc(item.caseStudy.label || 'Case study') + '</span><b aria-hidden="true">→</b></span></a>'
+          : '';
+        return '<article class="project-card tone-' + esc(item.tone || 'paper') + (item.featured ? ' is-featured' : '') + (caseStudy ? ' has-case-study' : '') + '">'
+          + caseStudy
           + '<div class="project-number">' + esc(item.index || '') + '</div>'
           + '<div class="project-main">'
           + '<p class="micro-label">' + esc(item.kind || '') + '</p>'

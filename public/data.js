@@ -63,10 +63,14 @@ window.PORTFOLIO = {
           index: "01",
           kind: "10-WEEK TEAM PROJECT · 8 PEOPLE",
           title: "Omagotchi",
-          period: "2026.07 — 2026.08",
+          period: "2026.07 — 2026.09.16",
           role: "게임 시스템 기획 · UI/UX · 아트 · 프론트엔드 전체 · 백엔드 6개 도메인",
           description: "학습 공간의 출결과 학습 시간을 캐릭터 육성, 레벨, 퀘스트로 연결한 게임화 학습 관리 서비스입니다. 팀의 모든 도메인 결과가 화면으로 수렴하는 통합 지점에서 기획부터 프론트엔드 구현, BFF 연동까지 수직 전 구간을 맡았습니다.",
           featured: true,
+          caseStudy: {
+            label: "Case study",
+            url: "./omagotchi/"
+          },
           metrics: [
             { value: "37", label: "Thymeleaf pages" },
             { value: "22 / 80", label: "Storybook files / states" },
@@ -78,48 +82,6 @@ window.PORTFOLIO = {
             "8개 컬러 토큰과 공통 컴포넌트 7종을 정의하고 80개 UI 상태를 Storybook에서 서버 없이 검증",
             "HttpOnly 세션을 브라우저 밖 BFF에서 Bearer 토큰으로 변환하고 8개 도메인의 오류 경계를 화면 상태로 통합",
             "11개 캐릭터 상태와 8색 팔레트를 직접 설계하고, 정적 몸통과 눈 GIF를 분리해 에셋 제작 비용을 구조적으로 절감"
-          ],
-          decisions: [
-            {
-              label: "RESPONSIVE ARCHITECTURE",
-              title: "두 벌의 Home 대신 하나의 fluid stage",
-              text: "모바일 전용 페이지까지 구현했지만 태블릿과 가로 모드가 계속 어긋났습니다. 증상이 아니라 레이아웃 모델을 원인으로 보고, /home 단일 진입점과 React Island로 전환해 기능 중복과 viewport redirect를 없앴습니다."
-            },
-            {
-              label: "COMPONENT BOUNDARY",
-              title: "공통 UI와 Home 전용 UI를 2계층으로 분리",
-              text: "순수 표현 컴포넌트와 data-* DOM 계약에 종속된 Home 컴포넌트를 분리해, 공통 라이브러리가 특정 화면의 로직에 오염되지 않도록 했습니다."
-            },
-            {
-              label: "STATE VERIFICATION",
-              title: "오류와 빈 상태를 서버보다 먼저 확정",
-              text: "실제 서버 조건을 만들기 어려운 loading, empty, error 상태를 Storybook 80개 사례로 고정하고 실제 화면에 연결했습니다."
-            },
-            {
-              label: "DESIGN SYSTEM",
-              title: "프레임워크보다 필요한 기능만 선택",
-              text: "기존 전역 CSS와 픽셀 아트 톤을 지키기 위해 CSS 프레임워크 도입을 폐기하고, 접근성이 필요한 Radix UI와 상태 전환용 Motion만 제한적으로 채택했습니다."
-            }
-          ],
-          codeNotes: [
-            {
-              title: "Thymeleaf 안에 React Island를 어떻게 연결했나",
-              text: "서버가 소유한 라우트와 세션 계약은 유지하고, 상호작용이 많은 Home 영역만 독립적으로 마운트했습니다. 서버 템플릿은 초기 경계와 data-* 계약을 제공하고 React는 그 안의 상태와 렌더링을 책임집니다.",
-              code: "const root = document.querySelector('[data-home-island]');\n\nif (root) {\n  createRoot(root).render(\n    <HomeIsland userId={root.dataset.userId} />\n  );\n}",
-              caption: "실제 구현을 설명하기 위해 축약한 구조 예시입니다."
-            },
-            {
-              title: "로딩·빈 화면·오류를 하나의 상태 모델로 다루기",
-              text: "API 응답을 곧바로 JSX 조건문에 흩뿌리지 않고 화면이 가질 수 있는 상태를 먼저 한정했습니다. Storybook에서도 같은 상태 모델을 사용해 서버 없이 경계 상황을 재현했습니다.",
-              code: "type ViewState<T> =\n  | { status: 'loading' }\n  | { status: 'empty' }\n  | { status: 'error'; message: string }\n  | { status: 'ready'; data: T };",
-              caption: "상태 분기를 설명하기 위한 대표 타입입니다."
-            },
-            {
-              title: "인증 변환은 브라우저가 아니라 BFF의 책임으로",
-              text: "브라우저에는 HttpOnly 세션만 남기고, 내부 API가 요구하는 Bearer 토큰 변환은 서버 경계에서 처리했습니다. UI 컴포넌트가 인증 세부사항을 알지 않게 해 화면 로직과 보안 책임을 분리했습니다.",
-              code: "const session = await readHttpOnlySession(request);\nconst response = await api.fetch('/home', {\n  headers: { Authorization: `Bearer ${session.token}` }\n});\n\nreturn mapToViewState(response);",
-              caption: "토큰 값과 실제 서버 구현을 노출하지 않은 흐름 예시입니다."
-            }
           ],
           stack: ["React 19", "Thymeleaf", "Vite", "Storybook", "Vanilla JS", "CSS", "Spring BFF"],
           tone: "lime"

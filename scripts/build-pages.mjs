@@ -8,12 +8,15 @@ const pagesUrl = "https://kitturamiboiler.github.io/frontend-portfolio/";
 
 await rm(output, { recursive: true, force: true });
 await mkdir(join(output, "assets"), { recursive: true });
+await mkdir(join(output, "omagotchi"), { recursive: true });
 
 await Promise.all([
   cp(join(root, "app/globals.css"), join(output, "assets/style.css")),
   cp(join(root, "public/assets/app.js"), join(output, "assets/app.js")),
+  cp(join(root, "public/assets/omagotchi.js"), join(output, "assets/omagotchi.js")),
   cp(join(root, "public/assets/og.png"), join(output, "assets/og.png")),
   cp(join(root, "public/data.js"), join(output, "data.js")),
+  cp(join(root, "public/omagotchi-case.js"), join(output, "omagotchi-case.js")),
   cp(join(root, "public/m00n-resume.pdf"), join(output, "m00n-resume.pdf")),
   cp(join(root, "public/m00n-portfolio.pdf"), join(output, "m00n-portfolio.pdf")),
 ]);
@@ -63,6 +66,50 @@ const html = `<!doctype html>
 </html>
 `;
 
+const omagotchiHtml = `<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Omagotchi Case Study · m00n</title>
+    <meta name="description" content="기획 문서와 GitHub 이슈, 구현 코드를 문제–판단–결과의 흐름으로 연결한 오마고치 프론트엔드 케이스스터디입니다.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="${pagesUrl}omagotchi/">
+    <meta property="og:title" content="Omagotchi Case Study · m00n">
+    <meta property="og:description" content="기획 문서와 GitHub 이슈, 구현 코드를 문제–판단–결과의 흐름으로 연결한 오마고치 프론트엔드 케이스스터디입니다.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Omagotchi Case Study · m00n">
+    <meta name="twitter:description" content="기획 문서와 GitHub 이슈, 구현 코드를 문제–판단–결과의 흐름으로 연결한 오마고치 프론트엔드 케이스스터디입니다.">
+    <link rel="canonical" href="${pagesUrl}omagotchi/">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../omagotchi-case.js"></script>
+    <script defer src="../assets/omagotchi.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#caseStudy">본문으로 바로가기</a>
+    <header class="site-header case-header">
+      <a class="brand" href="../#work" aria-label="포트폴리오 작업 목록으로 돌아가기">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>m00n / Omagotchi</span>
+      </a>
+      <nav id="caseNav" class="site-nav" aria-label="오마고치 상세 목차"></nav>
+      <button type="button" id="themeBtn" class="theme-button" aria-pressed="false">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-label">Dark</span>
+      </button>
+    </header>
+    <main id="caseStudy" class="case-main" aria-busy="true">
+      <noscript><div class="fallback">이 케이스스터디는 JavaScript가 켜진 브라우저에서 볼 수 있습니다.</div></noscript>
+    </main>
+    <footer class="site-footer case-footer">
+      <a href="../#work">← 프로젝트 목록으로</a>
+      <p>Omagotchi case study template · <span id="caseUpdated"></span></p>
+    </footer>
+  </body>
+</html>
+`;
+
 await writeFile(join(output, "index.html"), html);
+await writeFile(join(output, "omagotchi/index.html"), omagotchiHtml);
 await writeFile(join(output, ".nojekyll"), "");
 console.log(`GitHub Pages bundle written to ${output}`);
