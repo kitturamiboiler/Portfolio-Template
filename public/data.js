@@ -93,10 +93,10 @@ window.PORTFOLIO = {
           description: "콘텐츠와 표현 레이어를 분리한 포트폴리오. 하나의 데이터 파일만 수정하면 섹션과 내비게이션, 공유 메타데이터가 함께 이어지는 구조입니다.",
           points: [
             "의미 있는 HTML 구조와 키보드 탐색, 모션 감소 설정을 기본값으로 설계",
-            "React/Vinext 기반 Cloudflare Worker 호환 배포 구조",
+            "React 기반 Cloudflare Worker 호환 배포 구조",
             "반응형 레이아웃, 다크 모드, 인쇄 스타일, Open Graph 공유 카드 지원"
           ],
-          stack: ["React", "Vinext", "JavaScript", "CSS", "Accessibility"],
+          stack: ["React", "JavaScript", "CSS", "Accessibility"],
           links: [
             { label: "You are here", url: "#top" },
             { label: "GitHub profile", url: "https://github.com/kitturamiboiler" }
